@@ -1,0 +1,43 @@
+catatan project absensi dengan qr code
+
+1. jan lupa untuk tampilan home bagian tabel mahasiswa dan pengurus integrasi dengan database di ubah menggunakan id 
+jadi tampilan yang dipanggil menggunakan id yang diambil dari tabel keterangan kehadiran terus di join dengan tabel activity (aman sudah)
+2. selanjutnya absensi ketika selesai absen akan triger ke dalam database
+3. inisiatif dengan menggunakan lopping dari awal sampai akhir tapi ketika menemukan spasi pertama maka berhenti 
+3. codingan sudah benar tinggal gimana cara memodel body ketika feedback muncul  body tidak overflay hidden
+4. suara belum beres
+5. table home belum beres
+6. tabel home bagian keterangan gimana caranya dibuat fixed
+7. pada bagian table activity dibuat bisa cetak pdf dan bisa melakukan absen manual
+8. bagian page administrator dibuat untuk memantau semua admin dari tambah admin, kondisi keaktifan admin, kondisi user apa aja yang masuk per activity
+9. tabel activity masih belum beres
+10. table pengurus di page home belum beres
+11. table home sudah beres semua selanjutnya table activity
+12. table activity bagian checkboc belum beres yu bisa yuk
+13. table activity mahasiswa clear selanjutnya bagian pengurus dan selanjutnya user
+14. bagian user hanya bisa diakses oleh superadmin dan bisa menambahkan mahasiswa, pengurus dan administrator yu bisa yuk
+15. table activity beres selanjutnya bereskan chart.js dan buatkan output berupa pdf atau excel 
+16. apakah di datatables table bisa di tengah kalau di export
+17. chart di home kalau data kosong semua memunculkan error
+18. selanjutnya export data (Masih belum beres) masih bagian select yang ditable yang belum beres
+19. export pdf masih belum beres bagian tanggal kanan
+20. selanjunya tabel pengurus dari home sampai activity dan jan lupa absolute keterangan
+21. beresin data activity dan home activity   
+22. export beres sekarang nyoba yang keterangan relative
+23. fixed column masih kurang bagus
+24. selanjutnya form pendaftaran admin, mahasiswa pengurus yang hanya bisa diakses oleh superadmin 
+25. teruskan besok bagian styling css
+26. buat form penambhan activity, atur keterbasan super admin dan admin dan selesaikan masalah data mahasiswa
+27. bug tentang data tables bagian search ketika di save 
+28. modal add act belum beres, halaman login belum beres dan preloader belum dipasang
+29. setelah semuanya selesai cdn di ubah ke file aja
+30. data mahasiswa, profil admin dan mode gelap  belum beres
+31. tabel" dibuat toggle visibility
+32. memunculkan nilai jumlah tidak hadir dan hadir
+33. tabel mahasiswa ketika diperbaharui belum bisa
+34. testing diserver gratis
+
+important
+select harus ada tanda tik jika menggunakan sebuah variabel
+didalam button penamaan function dan variabel harus berbeda 
+mycss disarankan ditaruh paliing bawah untuk overwrite
