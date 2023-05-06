@@ -1,12 +1,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script src="js/jquery-3.6.4.js"></script>
-<script src="js/jquery.dataTables.min.js"></script>
-<script src="js/dataTables.buttons.min.js"></script>
-<script src="js/jszip.min.js"></script>
-<script src="js/pdfmake.min.js"></script>
-<script src="js/vfs_fonts.js"></script>
-<script src="js/buttons.html5.min.js"></script>
-<script src="js/buttons.print.min.js"></script>
 
 <script>
     setTimeout(function() {
@@ -15,6 +8,137 @@
 </script>
 
 <script>
+    let menuNavbar = document.getElementById('menuNavbar');
+
+    let toggle_menu_navbar = 1;
+
+    function menu() {
+        if (toggle_menu_navbar == 1) {
+            menuNavbar.classList.remove("fa-bars");
+            menuNavbar.classList.add("fa-times");
+            toggle_menu_navbar--;
+        } else {
+            menuNavbar.classList.remove("fa-times");
+            menuNavbar.classList.add("fa-bars");
+            toggle_menu_navbar++;
+        }
+    }
+</script>
+
+<?php
+if (isset($_GET['pagination'])) {
+    $pagination = $_GET['pagination'];
+    switch ($pagination) {
+        case 'home':
+            ?>
+            <script src="js/chart.js"></script>
+            <script src="js/chartjs-plugin-datalabels.min.js"></script>
+            <script>
+    const diagramCollStd = document.getElementById('diagram_coll_std');
+    let title_diagram_coll_std = document.getElementById('title_diagram_coll_std');
+    let title_diagram_mgt = document.getElementById('title_diagram_mgt');
+
+    const config_chart_coll_std = {
+        type: 'pie',
+        data: {
+            labels: [],
+            datasets: [{
+                label: ' Data',
+                data: [],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: true,
+                    align: 'end',
+                    font: {
+                        size: 12,
+                    }
+                },
+                colors: {
+                    forceOverride: true
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    }
+    const pieChartCollStd = new Chart(diagramCollStd, config_chart_coll_std);
+
+    let labels_temp_coll_std = `<?php echo ($labels_coll_std); ?>`;
+    let datas_temp_coll_std = `<?php echo ($datas_coll_std); ?>`;
+    let labels_coll_std = JSON.parse(labels_temp_coll_std);
+    let datas_coll_std = JSON.parse(datas_temp_coll_std);
+
+    title_diagram_coll_std.textContent = `<?php echo ($nameActCollStd); ?>`;
+    pieChartCollStd.data.labels = labels_coll_std;
+    pieChartCollStd.data.datasets[0].data = datas_coll_std;
+    pieChartCollStd.update();
+
+    const diagramManagement = document.getElementById('diagram_management');
+
+    const config_chart_mgt = {
+        type: 'pie',
+        data: {
+            labels: [],
+            datasets: [{
+                label: ' Data',
+                data: [],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: true,
+                    align: 'end',
+                    font: {
+                        size: 12,
+                    }
+                },
+                colors: {
+                    forceOverride: true
+                },
+                responsive: true,
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    }
+    const pieChartMgt = new Chart(diagramManagement, config_chart_mgt);
+
+    let labels_temp_mgt = `<?php echo ($labels_mgt); ?>`;
+    let datas_temp_mgt = `<?php echo ($datas_mgt); ?>`;
+    let labels_mgt = JSON.parse(labels_temp_mgt);
+    let datas_mgt = JSON.parse(datas_temp_mgt);
+
+    title_diagram_mgt.textContent = `<?php echo ($nameActMgt); ?>`;
+    pieChartMgt.data.labels = labels_mgt;
+    pieChartMgt.data.datasets[0].data = datas_mgt;
+    pieChartMgt.update();
+</script>
+            <script src="js/jquery.dataTables.min.js"></script>
+            <script src="js/dataTables.buttons.min.js"></script>
+            <script src="js/jszip.min.js"></script>
+            <script src="js/pdfmake.min.js"></script>
+            <script src="js/vfs_fonts.js"></script>
+            <script src="js/buttons.html5.min.js"></script>
+            <script src="js/buttons.print.min.js"></script>
+            <script>
     $(document).ready(function() {
         let dataTable = $('.homeActivityStd').DataTable({
             orderCellsTop: true,
@@ -136,8 +260,7 @@
         });
     });
 </script>
-
-<script>
+            <script>
     $(document).ready(function() {
         let dataTable = $('.homeActivityMgt').DataTable({
             "pageLength": 10,
@@ -260,8 +383,71 @@
         });
     });
 </script>
+            <?php
+            break;
+        case 'code_reader':
+            ?>
 
-<script>
+            <?php
+            break;
+        case 'open_camera':
+            if (isset($_GET['type'], $_GET['act'])) {
+                if (isset($_GET['nim'])) {
+                    ?>
+                    <script src="js/html5-qrcode.min.v2.3.4.js"></script>
+                    <script>
+    // read code
+    function docReady(fn) {
+        // see if DOM is already available
+        if (document.readyState === "complete" ||
+            document.readyState === "interactive") {
+            // call on next available tick
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }
+
+    docReady(function() {
+        let resultContainer = document.getElementById('qr-reader-results');
+        let lastResult, countResults = 0;
+
+        function onScanSuccess(decodedText, decodedResult) {
+            if (decodedText !== lastResult) {
+                ++countResults;
+                lastResult = decodedText;
+
+                window.location.assign("https://fortoring.000webhostapp.com/?pagination=open_camera&type=" + `<?php echo ($typeAct) ?>` + "&act=" + `<?php echo ($act) ?>` + "&nim=" + decodedResult.decodedText);
+            }
+        }
+
+        let config = {
+            fps: 10,
+            qrbox: 250,
+        }
+
+        let scanner = new Html5QrcodeScanner(
+            "reader", config);
+
+        scanner.render(onScanSuccess);
+        // scanner.clear(); clear untuk mematikan kamera
+
+    });
+</script>
+                    <?php
+                }
+            }
+            break;
+        case 'activity':
+            ?>
+            <script src="js/jquery.dataTables.min.js"></script>
+            <script src="js/dataTables.buttons.min.js"></script>
+            <script src="js/jszip.min.js"></script>
+            <script src="js/pdfmake.min.js"></script>
+            <script src="js/vfs_fonts.js"></script>
+            <script src="js/buttons.html5.min.js"></script>
+            <script src="js/buttons.print.min.js"></script>
+            <script>
     $(document).ready(function() {
         let dataTable = $('.activityStd').DataTable({
             "bPaginate": false,
@@ -375,8 +561,7 @@
         });
     });
 </script>
-
-<script>
+            <script>
     $(document).ready(function() {
         let dataTable = $('.activityMgt').DataTable({
             "bPaginate": false,
@@ -491,164 +676,15 @@
         });
     });
 </script>
-
-<script>
-    let menuNavbar = document.getElementById('menuNavbar');
-
-    let toggle_menu_navbar = 1;
-
-    function menu() {
-        if (toggle_menu_navbar == 1) {
-            menuNavbar.classList.remove("fa-bars");
-            menuNavbar.classList.add("fa-times");
-            toggle_menu_navbar--;
-        } else {
-            menuNavbar.classList.remove("fa-times");
-            menuNavbar.classList.add("fa-bars");
-            toggle_menu_navbar++;
-        }
+            <?php
+            break;
     }
-</script>
+}
+?>
 
-<script src="js/html5-qrcode.min.v2.3.4.js"></script>
-<script>
-    // read code
-    function docReady(fn) {
-        // see if DOM is already available
-        if (document.readyState === "complete" ||
-            document.readyState === "interactive") {
-            // call on next available tick
-            setTimeout(fn, 1);
-        } else {
-            document.addEventListener("DOMContentLoaded", fn);
-        }
-    }
 
-    docReady(function() {
-        let resultContainer = document.getElementById('qr-reader-results');
-        let lastResult, countResults = 0;
 
-        function onScanSuccess(decodedText, decodedResult) {
-            if (decodedText !== lastResult) {
-                ++countResults;
-                lastResult = decodedText;
 
-                window.location.assign("https://fortoring.000webhostapp.com/?pagination=open_camera&type=" + `<?php echo ($typeAct) ?>` + "&act=" + `<?php echo ($act) ?>` + "&nim=" + decodedResult.decodedText);
-            }
-        }
 
-        let config = {
-            fps: 10,
-            qrbox: 250,
-        }
 
-        let scanner = new Html5QrcodeScanner(
-            "reader", config);
-
-        scanner.render(onScanSuccess);
-        // scanner.clear(); clear untuk mematikan kamera
-
-    });
-</script>
-
-<script src="js/chart.js"></script>
-<script src="js/chartjs-plugin-datalabels.min.js"></script>
-<script>
-    const diagramCollStd = document.getElementById('diagram_coll_std');
-    let title_diagram_coll_std = document.getElementById('title_diagram_coll_std');
-    let title_diagram_mgt = document.getElementById('title_diagram_mgt');
-
-    const config_chart_coll_std = {
-        type: 'pie',
-        data: {
-            labels: [],
-            datasets: [{
-                label: ' Data',
-                data: [],
-                borderWidth: 3
-            }]
-        },
-        options: {
-            plugins: {
-                datalabels: {
-                    display: true,
-                    align: 'end',
-                    font: {
-                        size: 12,
-                    }
-                },
-                colors: {
-                    forceOverride: true
-                },
-                legend: {
-                    display: true,
-                    position: 'right',
-                    labels: {
-                        usePointStyle: true
-                    }
-                }
-            }
-        },
-        plugins: [ChartDataLabels]
-    }
-    const pieChartCollStd = new Chart(diagramCollStd, config_chart_coll_std);
-
-    let labels_temp_coll_std = `<?php echo ($labels_coll_std); ?>`;
-    let datas_temp_coll_std = `<?php echo ($datas_coll_std); ?>`;
-    let labels_coll_std = JSON.parse(labels_temp_coll_std);
-    let datas_coll_std = JSON.parse(datas_temp_coll_std);
-
-    title_diagram_coll_std.textContent = `<?php echo ($nameActCollStd); ?>`;
-    pieChartCollStd.data.labels = labels_coll_std;
-    pieChartCollStd.data.datasets[0].data = datas_coll_std;
-    pieChartCollStd.update();
-
-    const diagramManagement = document.getElementById('diagram_management');
-
-    const config_chart_mgt = {
-        type: 'pie',
-        data: {
-            labels: [],
-            datasets: [{
-                label: ' Data',
-                data: [],
-                borderWidth: 3
-            }]
-        },
-        options: {
-            plugins: {
-                datalabels: {
-                    display: true,
-                    align: 'end',
-                    font: {
-                        size: 12,
-                    }
-                },
-                colors: {
-                    forceOverride: true
-                },
-                responsive: true,
-                legend: {
-                    display: true,
-                    position: 'right',
-                    labels: {
-                        usePointStyle: true
-                    }
-                }
-            }
-        },
-        plugins: [ChartDataLabels]
-    }
-    const pieChartMgt = new Chart(diagramManagement, config_chart_mgt);
-
-    let labels_temp_mgt = `<?php echo ($labels_mgt); ?>`;
-    let datas_temp_mgt = `<?php echo ($datas_mgt); ?>`;
-    let labels_mgt = JSON.parse(labels_temp_mgt);
-    let datas_mgt = JSON.parse(datas_temp_mgt);
-
-    title_diagram_mgt.textContent = `<?php echo ($nameActMgt); ?>`;
-    pieChartMgt.data.labels = labels_mgt;
-    pieChartMgt.data.datasets[0].data = datas_mgt;
-    pieChartMgt.update();
-</script>
 
